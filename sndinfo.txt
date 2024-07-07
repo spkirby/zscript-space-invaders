@@ -1,0 +1,2 @@
+invader/death INVDEATH
+player/shoot PLYSHOOT

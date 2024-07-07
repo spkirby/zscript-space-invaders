@@ -1,0 +1,7 @@
+GameInfo {
+	AddEventHandlers = "PlayerShipInputHandler"
+}
+
+DoomEdNums {
+	16300 = SpaceInvaderGame
+}
