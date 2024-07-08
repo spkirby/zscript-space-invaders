@@ -6,6 +6,7 @@ class PlayerMissile : Actor {
 		Height 8;
 		Speed 10;
 		DamageFunction 1;
+		DamageType "Missile";
 		Projectile;
 		+Bright;
 		SeeSound "player/shoot";

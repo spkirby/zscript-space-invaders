@@ -22,6 +22,12 @@ class SpaceInvader : Actor abstract {
 	States {
 		Spawn:
 			Goto Walk0;
+		Walk0:
+			TNT1 A -1;
+			Loop;
+		Walk1:
+			TNT1 A -1;
+			Loop;
 		Death:
 			INVX A 15
 			{

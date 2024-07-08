@@ -5,3 +5,4 @@
 #include "./player-missile.zs"
 #include "./player-ship-input-handler.zs"
 #include "./shield-chunk.zs"
+#include "./shield.zs"

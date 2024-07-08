@@ -10,6 +10,8 @@ class SpaceInvaderGame : Actor {
 	const InvaderColumns = 11;
 	const FieldWidth = 448;
 	const FieldHeight = 340;
+	const ShieldHeightAbovePlayer = 32;
+	const ShieldHeight = 32;
 	
 	int nextMove;
 	int direction;
@@ -24,12 +26,9 @@ class SpaceInvaderGame : Actor {
 		
 		CreateInvaders();
 		CreatePlayerShip();
+		CreateShields();
 		LockPlayer();
 
-        for (let x = 0; x < 20; x++) {
-		    Actor.Spawn("ShieldChunk", (self.pos.x + (x * 2), self.pos.y, self.pos.z + 64));
-		}
-		
 		nextMove = GetNextMoveDelay(InvaderRows * InvaderColumns);
 		direction = 1;
 	}
@@ -55,6 +54,18 @@ class SpaceInvaderGame : Actor {
 	private void CreatePlayerShip() {
 		let ship = PlayerShip(Actor.Spawn("PlayerShip", self.pos));
 		ship.SetBounds(minX, maxX, maxZ);
+	}
+
+	private void CreateShields() {
+		let offset = (FieldWidth - (26 * 2)) / 4;
+
+		for (let i = 0; i < 4; i++) {
+			Shield.Create((
+				minX + 26 + (i * offset),
+				self.pos.y,
+				self.pos.z + ShieldHeight + ShieldHeightAbovePlayer
+			));
+		}
 	}
 	
 	private void LockPlayer() {

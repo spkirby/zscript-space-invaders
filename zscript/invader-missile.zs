@@ -6,6 +6,7 @@ class InvaderMissile : Actor {
 		Height 8;
 		Speed 5;
 		DamageFunction 1;
+		DamageType "Missile";
 		Projectile;
 		+Bright;
 	}
