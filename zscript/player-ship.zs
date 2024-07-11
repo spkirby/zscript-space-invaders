@@ -11,17 +11,39 @@ class PlayerShip : Actor {
 		Radius 13;
 		Height 16;
 		Speed 3;
+		Mass 10000;
+		+Solid;
+		+Shootable;
+		+NoBlood;
 		+NoGravity;
+		+NoForwardFall;
 		+Float;
 		+Bright;
-		+NoBlood;
-		+Invulnerable;
+		DeathSound "player/death";
 	}
 	
 	States {
 		Spawn:
 			PLYS A 1 CheckMove();
 			Loop;
+		Death:
+			PLYD A 2
+			{
+				A_ScreamAndUnblock();
+				bNoGravity = true;
+			}
+			PLYD BABABABABABABABAB 2;
+			TNT1 A -1;
+			Loop;
+	}
+
+	bool IsDestroyed() {
+		return InStateSequence(curState, ResolveState("Death"));
+	}
+
+	void Resurrect() {
+		SetState(ResolveState("Spawn"));
+		SetOrigin((minX, self.pos.y, self.pos.z), false);
 	}
 	
 	void SetBounds(int minX, int maxX, int maxZ) {

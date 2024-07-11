@@ -1,9 +1,10 @@
-class SpaceInvaderGame : Actor {
-	Default {
-		+Invisible;
-		-Solid;
-	}
-	
+enum GameState {
+	GameState_Normal = 0,
+	GameState_PlayerDestroyed = 1,
+	GameState_GameOver = 2
+}
+
+class SpaceInvadersGame : Actor {
 	const InvaderWidth = 30;
 	const InvaderHeight = 30;
 	const InvaderRows = 5;
@@ -18,6 +19,24 @@ class SpaceInvaderGame : Actor {
 	int minX;
 	int maxX;
 	int maxZ;
+	int step;
+	GameState gameState;
+	int playerLives;
+	PlayerShip _playerShip;
+
+	Default {
+		+Invisible;
+		-Solid;
+	}
+	
+	States {
+		Spawn:
+			TNT1 A 1 NoDelay Start();
+			Goto GameLoop;
+		GameLoop:
+			TNT1 A 1 UpdateGame();
+			Loop;
+	}
 		
 	void Start() {
 		minX = pos.x - (FieldWidth / 2);
@@ -25,12 +44,14 @@ class SpaceInvaderGame : Actor {
 		maxZ = self.pos.z + FieldHeight;
 		
 		CreateInvaders();
-		CreatePlayerShip();
+		_playerShip = CreatePlayerShip();
 		CreateShields();
 		LockPlayer();
 
-		nextMove = GetNextMoveDelay(InvaderRows * InvaderColumns);
+		nextMove = 35;
 		direction = 1;
+		playerLives = 3;
+		gameState = GameState_Normal;
 	}
 	
 	private void CreateInvaders() {
@@ -51,9 +72,10 @@ class SpaceInvaderGame : Actor {
 		}
 	}
 	
-	private void CreatePlayerShip() {
+	private PlayerShip CreatePlayerShip() {
 		let ship = PlayerShip(Actor.Spawn("PlayerShip", self.pos));
 		ship.SetBounds(minX, maxX, maxZ);
+		return ship;
 	}
 
 	private void CreateShields() {
@@ -77,17 +99,27 @@ class SpaceInvaderGame : Actor {
 		players[0].cheats &= ~CF_TOTALLYFROZEN;
 		ChangeCamera(0, 1, 0);
 	}
-	
-	States {
-		Spawn:
-			TNT1 A 1 NoDelay Start();
-			Goto GameLoop;
-		GameLoop:
-			TNT1 A 1 UpdateGame();
-			Loop;
-	}
-	
+
 	void UpdateGame() {
+		if (gameState == GameState_PlayerDestroyed) {
+			if (--nextMove > 0) {
+				return;
+			}
+
+			_playerShip.Resurrect();
+			gameState = GameState_Normal;
+		}
+
+		if (_playerShip.IsDestroyed()) {
+			nextMove = 105;
+			gameState = GameState_PlayerDestroyed;
+			return;
+		}
+
+		UpdateInvaders();
+	}
+
+	void UpdateInvaders() {
 		if (--nextMove > 0) {
 			return;
 		}
@@ -124,10 +156,15 @@ class SpaceInvaderGame : Actor {
 		}
 		
 		nextMove = GetNextMoveDelay(invaders.Size());
+		A_StartSound("invader/walk" .. step);
+
+		if (++step > 3) {
+			step = 0;
+		}
 	}
 	
-	int GetNextMoveDelay(int invaders) {
-		let x = floor((invaders / double(InvaderRows * InvaderColumns)) * 18);
+	private int GetNextMoveDelay(int invaders) {
+		let x = floor((invaders / double(InvaderRows * InvaderColumns)) * 28);
 		return x;
 	}
 }

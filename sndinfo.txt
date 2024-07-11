@@ -1,2 +1,7 @@
+invader/walk0 INVWALK1
+invader/walk1 INVWALK2
+invader/walk2 INVWALK3
+invader/walk3 INVWALK4
 invader/death INVDEATH
 player/shoot PLYSHOOT
+player/death PLYDEATH

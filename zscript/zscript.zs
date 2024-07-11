@@ -1,4 +1,3 @@
-#include "./space-invader-game.zs"
 #include "./invaders.zs"
 #include "./invader-missile.zs"
 #include "./player-ship.zs"
@@ -6,3 +5,4 @@
 #include "./player-ship-input-handler.zs"
 #include "./shield-chunk.zs"
 #include "./shield.zs"
+#include "./space-invaders-game.zs"

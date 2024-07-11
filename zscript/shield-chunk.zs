@@ -7,12 +7,12 @@ class ShieldChunk : Actor {
         Height 2;
         Radius 1;
         Mass 10000;
-        PainChance 256;
         +Solid;
         +Shootable;
         +NoBlood;
         +NoGravity;
         +NoForwardFall;
+        +Bright;
     }
 
     States {

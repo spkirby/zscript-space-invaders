@@ -2,6 +2,10 @@ GameInfo {
 	AddEventHandlers = "PlayerShipInputHandler"
 }
 
+Map MAP01 "Space Invaders" {
+	Music = ""
+}
+
 DoomEdNums {
-	16300 = SpaceInvaderGame
+	16300 = SpaceInvadersGame
 }

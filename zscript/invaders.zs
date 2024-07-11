@@ -21,13 +21,16 @@ class SpaceInvader : Actor abstract {
 	
 	States {
 		Spawn:
-			Goto Walk0;
+			TNT1 A 1
+			{
+				fireCooldown = 3;
+				SetState(ResolveState("Walk0"));
+			}
+			Loop;
 		Walk0:
-			TNT1 A -1;
-			Loop;
+			Stop;
 		Walk1:
-			TNT1 A -1;
-			Loop;
+			Stop;
 		Death:
 			INVX A 15
 			{

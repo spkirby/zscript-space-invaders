@@ -19,15 +19,11 @@ class Shield : Thinker {
         "#####............#####",
         "#####............#####"
     };
+    
     ShieldChunk chunks[ChunkRows][ChunkCols];
-    vector3 origin;
     
     private void Init(vector3 origin) {
-        self.origin = origin;
-
         let pos = origin;
-
-
 
         for (let z = 0; z < ChunkRows; z++) {
         	for (let x = 0; x < ChunkCols; x++) {
