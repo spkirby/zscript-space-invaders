@@ -22,6 +22,12 @@ class Shield : Thinker {
     
     ShieldChunk chunks[ChunkRows][ChunkCols];
     
+    static Shield Create(vector3 origin) {
+        let controller = New("Shield");
+        controller.Init(origin);
+        return controller;
+    }
+
     private void Init(vector3 origin) {
         let pos = origin;
 
@@ -42,12 +48,6 @@ class Shield : Thinker {
             pos.x = origin.x;
             pos.z -= 2;
 		}
-    }
-
-    static Shield Create(vector3 origin) {
-        let controller = New("Shield");
-        controller.Init(origin);
-        return controller;
     }
 
     void ChunkDestroyed(ShieldChunk chunk) {

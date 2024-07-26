@@ -5,4 +5,6 @@
 #include "./player-ship-input-handler.zs"
 #include "./shield-chunk.zs"
 #include "./shield.zs"
+#include "./status.zs"
 #include "./space-invaders-game.zs"
+#include "./game-event-handler.zs"

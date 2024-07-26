@@ -1,8 +1,10 @@
 
 class SpaceInvader : Actor abstract {
 	const FireProbability = 0.05;
+	int score;
 	int fireCooldown;
 	int animationFrame;
+	property Score : score;
 	
 	Default {
 		Health 1;
@@ -54,8 +56,8 @@ class SpaceInvader : Actor abstract {
 			SetOrigin((self.pos.x + offsetX, self.pos.y, self.pos.z + offsetZ), true);
 		}
 	}
-	
-	void CheckFire() {
+
+	void TryFire() {
 		if (fireCooldown > 0) {
 			fireCooldown--;
 			return;
@@ -66,13 +68,12 @@ class SpaceInvader : Actor abstract {
 
 			if (
 				!LineTrace(0, 500, 90, offsetZ: -1, data: traceData) ||
-				traceData.HitType & TRACE_HitActor == 0 ||
+				traceData.HitType != TRACE_HitActor ||
 				(
 					traceData.HitActor != null &&
-					traceData.HitActor.GetClassName() != "SpaceInvader1" &&
-					traceData.HitActor.GetClassName() != "SpaceInvader2" &&
-					traceData.HitActor.GetClassName() != "SpaceInvader3" &&
-					traceData.HitActor.GetClassName() != "InvaderMissile"
+					traceData.HitActor.GetClassName() == "PlayerShip" ||
+					traceData.HitActor.GetClassName() == "PlayerMissile" ||
+					traceData.HitActor.GetClassName() == "ShieldChunk"
 				)
 			) {
 				A_SpawnProjectile("InvaderMissile", spawnHeight: -1, flags: CMF_AIMDIRECTION, pitch: 90);
@@ -83,34 +84,46 @@ class SpaceInvader : Actor abstract {
 }
 
 class SpaceInvader1 : SpaceInvader {
+	Default {
+		SpaceInvader.Score 30;
+	}
+
 	States {
 		Walk0:
-			INV1 A 10 CheckFire();
+			INV1 A 10;
 			Loop;
 		Walk1:
-			INV1 B 10 CheckFire();
+			INV1 B 10;
 			Loop;
 	}
 }
 
 class SpaceInvader2 : SpaceInvader {
+	Default {
+		SpaceInvader.Score 20;
+	}
+
 	States {
 		Walk0:
-			INV2 A 10 CheckFire();
+			INV2 A 10;
 			Loop;
 		Walk1:
-			INV2 B 10 CheckFire();
+			INV2 B 10;
 			Loop;
 	}
 }
 
 class SpaceInvader3 : SpaceInvader {
+	Default {
+		SpaceInvader.Score 10;
+	}
+
 	States {
 		Walk0:
-			INV3 A 10 CheckFire();
+			INV3 A 10;
 			Loop;
 		Walk1:
-			INV3 B 10 CheckFire();
+			INV3 B 10;
 			Loop;
 	}
 }

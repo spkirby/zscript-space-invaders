@@ -1,5 +1,5 @@
 GameInfo {
-	AddEventHandlers = "PlayerShipInputHandler"
+	AddEventHandlers = "GameEventHandler", "PlayerShipInputHandler", "StatusHandler"
 }
 
 Map MAP01 "Space Invaders" {

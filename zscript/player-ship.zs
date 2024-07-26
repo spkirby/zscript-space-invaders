@@ -37,10 +37,6 @@ class PlayerShip : Actor {
 			Loop;
 	}
 
-	bool IsDestroyed() {
-		return InStateSequence(curState, ResolveState("Death"));
-	}
-
 	void Resurrect() {
 		SetState(ResolveState("Spawn"));
 		SetOrigin((minX, self.pos.y, self.pos.z), false);
